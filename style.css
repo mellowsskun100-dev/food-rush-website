@@ -1,3 +1,15 @@
+/* ===== Fonts (needs internet, falls back to Verdana if offline) ===== */
+@import url("https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Lilita+One&display=swap");
+
+/* ===== Colors you can change ===== */
+:root {
+  --red: #ff3d2e;
+  --orange: #ff9f1c;
+  --yellow: #ffd60a;
+  --dark: #2b0d0a;
+  --cream: #fff3d6;
+}
+
 /* ===== Basics ===== */
 * {
   box-sizing: border-box;
@@ -5,14 +17,22 @@
 
 body {
   margin: 0;
-  font-family: Verdana, Geneva, sans-serif;
-  background: #fff1d6;
-  color: #3b2a1a;
+  min-height: 100vh;
+  font-family: "Fredoka", Verdana, Geneva, sans-serif;
+  color: var(--dark);
   line-height: 1.6;
+
+  /* Moving red, orange, yellow background */
+  background: linear-gradient(135deg, #ff3d2e, #ff9f1c, #ffd60a, #ff9f1c, #ff3d2e);
+  background-size: 400% 400%;
+  animation: bgShift 12s ease infinite;
 }
 
 h1, h2, h3 {
   margin-top: 0;
+  font-family: "Lilita One", Impact, sans-serif;
+  font-weight: normal;
+  letter-spacing: 1px;
 }
 
 /* ===== Navigation bar ===== */
@@ -21,61 +41,112 @@ nav {
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  padding: 12px 24px;
-  background: #e76f51;
-  color: white;
+  padding: 10px 24px;
+  background: var(--dark);
+  border-bottom: 5px solid var(--yellow);
+  box-shadow: 0 4px 20px rgba(255, 214, 10, 0.6);
 }
 
 .logo {
-  font-size: 1.3rem;
-  font-weight: bold;
+  font-family: "Lilita One", Impact, sans-serif;
+  font-size: 1.6rem;
+  color: var(--yellow);
+  text-shadow: 2px 2px 0 var(--red);
+  display: inline-block;
+  animation: wobble 2.5s ease-in-out infinite;
 }
 
 .links a {
-  color: white;
+  display: inline-block;
+  color: var(--cream);
   text-decoration: none;
-  margin-left: 18px;
-  padding: 6px 10px;
-  border-radius: 6px;
+  font-weight: 600;
+  margin-left: 10px;
+  padding: 6px 16px;
+  border-radius: 999px;
+  transition: transform 0.15s, background 0.15s;
 }
 
 .links a:hover {
-  background: rgba(255, 255, 255, 0.25);
+  background: var(--orange);
+  color: var(--dark);
+  transform: scale(1.12) rotate(-3deg);
 }
 
 /* The page you are currently on */
 .links a.active {
-  background: rgba(0, 0, 0, 0.25);
+  background: var(--yellow);
+  color: var(--dark);
+}
+
+/* ===== Moving food strip (top and bottom of hero and game area) ===== */
+.hero,
+.game-area {
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before,
+.hero::after,
+.game-area::before,
+.game-area::after {
+  content: "🍕 🍔 🍟 🍩 🌭 🍕 🍔 🍟 🍩 🌭 🍕 🍔 🍟 🍩 🌭 🍕 🍔 🍟 🍩 🌭 🍕 🍔 🍟 🍩 🌭 🍕 🍔 🍟 🍩 🌭";
+  position: absolute;
+  left: 0;
+  white-space: nowrap;
+  font-size: 2.2rem;
+  letter-spacing: 12px;
+  animation: slide 40s linear infinite;
+  pointer-events: none;
+}
+
+.hero::before,
+.game-area::before {
+  top: 6px;
+}
+
+.hero::after,
+.game-area::after {
+  bottom: 6px;
+  animation-direction: reverse;
 }
 
 /* ===== Home page: big top section ===== */
 .hero {
   text-align: center;
-  padding: 60px 20px;
-  background: #ffe29a;
+  padding: 80px 20px;
 }
 
 .hero h1 {
-  font-size: 2.2rem;
+  font-size: 3rem;
+  line-height: 1.15;
+  color: white;
+  text-shadow: 3px 3px 0 var(--dark), 6px 6px 0 var(--red);
 }
 
 .hero p {
-  max-width: 500px;
-  margin: 0 auto 24px;
+  max-width: 520px;
+  margin: 0 auto 28px;
+  font-size: 1.2rem;
+  font-weight: 600;
 }
 
 .big-button {
   display: inline-block;
-  padding: 14px 40px;
-  background: #e76f51;
-  color: white;
-  font-size: 1.2rem;
+  padding: 14px 44px;
+  font-family: "Lilita One", Impact, sans-serif;
+  font-size: 1.6rem;
+  color: var(--dark);
+  background: var(--yellow);
   text-decoration: none;
-  border-radius: 10px;
+  border: 4px solid var(--dark);
+  border-radius: 999px;
+  box-shadow: 0 7px 0 var(--dark);
+  animation: pulse 1.4s ease-in-out infinite;
 }
 
 .big-button:hover {
-  background: #f08a6e;
+  background: white;
 }
 
 /* ===== Home page: cards ===== */
@@ -87,91 +158,206 @@ main {
 
 main h2 {
   text-align: center;
+  font-size: 2rem;
+  color: white;
+  text-shadow: 2px 2px 0 var(--dark);
 }
 
 .cards {
   display: flex;
   flex-wrap: wrap;
-  gap: 16px;
+  gap: 22px;
   justify-content: center;
+  padding: 10px 0 20px;
 }
 
 .card {
   width: 190px;
-  padding: 20px;
+  padding: 18px;
   background: white;
-  border-radius: 12px;
+  border: 4px solid var(--dark);
+  border-radius: 16px;
+  box-shadow: 6px 6px 0 var(--dark);
   text-align: center;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s;
+}
+
+.card:nth-child(1) { transform: rotate(-3deg); }
+.card:nth-child(2) { transform: rotate(2deg); }
+.card:nth-child(3) { transform: rotate(-2deg); }
+.card:nth-child(4) { transform: rotate(3deg); }
+
+.card:hover {
+  transform: rotate(0deg) scale(1.1);
+}
+
+.card h3 {
+  color: var(--red);
+  font-size: 1.3rem;
+  margin-bottom: 4px;
+}
+
+.card p {
+  margin: 0;
+  font-size: 0.95rem;
 }
 
 .card .emoji {
-  font-size: 2.5rem;
+  font-size: 2.8rem;
+  display: inline-block;
+  animation: bounce 1.2s ease-in-out infinite;
 }
+
+.card:nth-child(2) .emoji { animation-delay: 0.2s; }
+.card:nth-child(3) .emoji { animation-delay: 0.4s; }
+.card:nth-child(4) .emoji { animation-delay: 0.6s; }
 
 /* ===== Play page ===== */
 .game-area {
   text-align: center;
+  padding-top: 64px;
+  padding-bottom: 64px;
 }
 
+.game-area h1 {
+  font-size: 2.4rem;
+  color: white;
+  text-shadow: 3px 3px 0 var(--dark), 5px 5px 0 var(--red);
+}
+
+/* Score, lives, and best score as round badges */
 .hud {
   display: flex;
   justify-content: space-between;
   width: 400px;
   max-width: 100%;
-  margin: 0 auto 8px;
+  margin: 0 auto 12px;
+  font-family: "Lilita One", Impact, sans-serif;
   font-size: 1.1rem;
 }
 
+.hud span {
+  padding: 4px 16px;
+  background: var(--dark);
+  color: var(--yellow);
+  border-radius: 999px;
+}
+
+.hud b {
+  color: white;
+  font-weight: normal;
+}
+
+/* The game screen with a glowing border */
 canvas {
-  background: #ffe29a;
-  border: 4px solid #e76f51;
-  border-radius: 10px;
+  display: block;          /* puts the game on its own line and centers it */
+  margin: 0 auto;
+  background: linear-gradient(180deg, #fff3d6, #ffd60a);
+  border: 6px solid var(--dark);
+  border-radius: 16px;
   max-width: 100%;
   touch-action: none; /* stops page scrolling while you drag */
+  animation: glow 1.8s ease-in-out infinite;
 }
 
 button {
-  margin-top: 12px;
-  padding: 10px 28px;
-  font-size: 1.1rem;
-  background: #e76f51;
-  color: white;
-  border: none;
-  border-radius: 8px;
+  margin-top: 18px;
+  padding: 10px 40px;
+  font-family: "Lilita One", Impact, sans-serif;
+  font-size: 1.4rem;
+  color: var(--dark);
+  background: var(--yellow);
+  border: 4px solid var(--dark);
+  border-radius: 999px;
+  box-shadow: 0 6px 0 var(--dark);
   cursor: pointer;
 }
 
 button:hover {
-  background: #f08a6e;
+  background: white;
+}
+
+/* Button looks pressed when you click it */
+button:active {
+  transform: translateY(5px);
+  box-shadow: 0 1px 0 var(--dark);
 }
 
 .hint {
-  font-size: 0.85rem;
-  opacity: 0.7;
+  font-size: 0.95rem;
+  font-weight: 600;
 }
 
 /* ===== About page ===== */
 .text-page {
   max-width: 700px;
+  margin: 30px auto;
+  background: white;
+  border: 4px solid var(--dark);
+  border-radius: 16px;
+  box-shadow: 8px 8px 0 var(--dark);
+  padding: 30px;
+}
+
+.text-page h1 {
+  font-size: 2.2rem;
+  color: var(--red);
+  text-shadow: 2px 2px 0 var(--yellow);
 }
 
 .text-page h2 {
   text-align: left;
   margin-top: 28px;
+  font-size: 1.5rem;
+  color: var(--red);
+  text-shadow: none;
+  border-bottom: 3px dashed var(--orange);
 }
 
 /* ===== Footer ===== */
 footer {
   text-align: center;
   padding: 20px;
-  background: #3b2a1a;
-  color: #fff1d6;
-  font-size: 0.85rem;
+  background: var(--dark);
+  border-top: 5px solid var(--yellow);
+  color: var(--yellow);
+  font-size: 0.9rem;
 }
 
 footer p {
   margin: 0;
+}
+
+/* ===== Animations ===== */
+@keyframes bgShift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes slide {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+@keyframes wobble {
+  0%, 100% { transform: rotate(-3deg); }
+  50%      { transform: rotate(3deg); }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.08); }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-10px); }
+}
+
+@keyframes glow {
+  0%, 100% { box-shadow: 0 0 10px var(--yellow), 0 0 20px var(--orange); }
+  50%      { box-shadow: 0 0 20px var(--red), 0 0 40px var(--orange); }
 }
 
 /* ===== Small screens (phones) ===== */
@@ -185,7 +371,22 @@ footer p {
     margin: 4px;
   }
 
+  .hero {
+    padding: 70px 16px;
+  }
+
   .hero h1 {
-    font-size: 1.6rem;
+    font-size: 2.1rem;
+  }
+
+  .hud {
+    font-size: 0.95rem;
+  }
+}
+
+/* People who turn off animations on their device */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
   }
 }
